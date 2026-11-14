@@ -1,32 +1,51 @@
 /**
- * Simpan rekap nilai terbaru setiap materi per anak ke Google Spreadsheet.
+ * Simpan rekap nilai terbaru setiap latihan per anak ke Google Spreadsheet.
  */
 const SPREADSHEET_ID = "1kgvG7-13VEagpfdda9IU9uOEiDoymgzJfZccnn4MKKY";
 const NAMA_SHEET = "Hasil";
 const MATERI = [
-  { id: "preposition", judul: "Preposition 📦", kolom: "Preposition" },
+  {
+    id: "preposition",
+    judul: "Posisi Benda",
+    alias: ["Preposition"],
+    kolom: "Preposition",
+  },
   {
     id: "kepemilikan",
-    judul: "Kepemilikan (My, Your, His, Her) 🎒",
+    judul: "Petunjuk Pemilik Benda",
+    alias: ["Kepemilikan (My, Your, His, Her)"],
     kolom: "Kepemilikan",
   },
   {
     id: "ongoing-action",
-    judul: "Ongoing Action 🏃",
+    judul: "Aksi yang Sedang Berlangsung",
+    alias: ["Ongoing Action"],
     kolom: "Ongoing Action",
   },
   {
     id: "like-can",
-    judul: "Like / Don't Like / Can / Can't ❤️",
+    judul: "Kesukaan dan Kemampuan",
+    alias: ["Like / Don't Like / Can / Can't"],
     kolom: "Like / Don't Like / Can / Can't",
   },
-  { id: "shadow", judul: "Shadow 🌗", kolom: "Shadow" },
+  {
+    id: "shadow",
+    judul: "Cahaya dan Bayangan",
+    alias: ["Shadow"],
+    kolom: "Shadow",
+  },
   {
     id: "sky-objects",
-    judul: "Objects at the Sky ☁️",
+    judul: "Mengamati Benda di Langit",
+    alias: ["Objects at the Sky"],
     kolom: "Objects at the Sky",
   },
-  { id: "past-tense", judul: "Past Tense 🕰️", kolom: "Past Tense" },
+  {
+    id: "past-tense",
+    judul: "Menyusun Cerita Masa Lalu",
+    alias: ["Past Tense"],
+    kolom: "Past Tense",
+  },
 ];
 const HEADER = ["Nama"]
   .concat(MATERI.map((materi) => materi.kolom))
@@ -54,7 +73,7 @@ function doPost(e) {
     ) {
       return jsonOut({
         status: "error",
-        message: "Nama, materi, skor, atau tanggal tidak valid.",
+        message: "Nama, latihan, skor, atau tanggal tidak valid.",
       });
     }
 
@@ -131,12 +150,21 @@ function jsonOut(value) {
 function cariMateri(materiId, tema) {
   let indeks = MATERI.findIndex((materi) => materi.id === materiId);
   if (indeks < 0) {
-    const judul = String(tema).trim().toLowerCase();
+    const judul = normalisasiJudul(tema);
     indeks = MATERI.findIndex(
-      (materi) => materi.judul.trim().toLowerCase() === judul,
+      (materi) =>
+        normalisasiJudul(materi.judul) === judul ||
+        materi.alias.some((alias) => normalisasiJudul(alias) === judul),
     );
   }
   return indeks;
+}
+
+function normalisasiJudul(judul) {
+  return String(judul)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
 }
 
 function hitungRataRata(baris) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore, type FormEvent } from "react";
+import { Sprout } from "lucide-react";
 import {
   getStudentName,
   saveStudentName,
@@ -27,7 +28,8 @@ export default function StudentProfile() {
     return (
       <section className="flex items-center justify-between gap-3 rounded-3xl border border-mint-light bg-cream px-4 py-3 shadow-sm shadow-mint/30">
         <p className="font-semibold text-forest">
-          Halo, <strong>{savedName}</strong>! 🌱
+          <Sprout aria-hidden="true" className="mr-1 inline h-5 w-5 text-forest/70" />
+          Halo, <strong>{savedName}</strong>!
         </p>
         <button
           type="button"
@@ -81,7 +83,7 @@ export default function StudentProfile() {
         </button>
       )}
       <p className="mt-2 text-xs text-forest/60">
-        Nama ini akan dipakai untuk semua nilai materi di perangkat ini.
+        Nama ini akan dipakai untuk semua nilai latihan di perangkat ini.
       </p>
     </form>
   );

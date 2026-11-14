@@ -16,9 +16,9 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "English Fun — Belajar Bahasa Inggris Kelas 2 SD",
+  title: "English Fun — Latihan Pengayaan Bahasa Inggris Kelas 2 SD",
   description:
-    "Website edukasi Bahasa Inggris untuk anak kelas 2 SD: materi, latihan soal, dan rekap skor.",
+    "Latihan pengayaan Bahasa Inggris kelas 2 SD dengan soal HOTS dan rekap skor.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

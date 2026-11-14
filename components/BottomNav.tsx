@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BookOpenCheck, Trophy } from "lucide-react";
 
 const MENU = [
-  { href: "/", label: "Beranda", ikon: "📚" },
-  { href: "/skor", label: "Skor", ikon: "🏆" },
+  { href: "/", label: "Beranda", ikon: BookOpenCheck },
+  { href: "/skor", label: "Skor", ikon: Trophy },
 ];
 
 export default function BottomNav() {
@@ -30,7 +31,7 @@ export default function BottomNav() {
                   : "text-forest/70 hover:bg-mint-light"
               }`}
             >
-              <span aria-hidden>{item.ikon}</span>
+              <item.ikon aria-hidden="true" className="h-5 w-5" />
               {item.label}
             </Link>
           );

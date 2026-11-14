@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
-import type { Materi, Soal } from "@/data/materi";
+import type { LatihanTopic, Soal } from "@/data/latihan";
 import type { HasilLatihan } from "@/lib/hasil";
 import {
   getStudentName,
   subscribeStudentName,
 } from "@/lib/student";
+import QuestionIllustration from "@/components/QuestionIllustration";
 
 const POIN_PER_SOAL = 10;
 const HURUF = ["A", "B", "C", "D"];
@@ -21,7 +22,7 @@ function normalize(teks: string): string {
     .replace(/[.!?]+$/, "");
 }
 
-export default function QuizClient({ materi }: { materi: Materi }) {
+export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
   const router = useRouter();
   const savedName = useSyncExternalStore(
     subscribeStudentName,
@@ -36,8 +37,8 @@ export default function QuizClient({ materi }: { materi: Materi }) {
 
   const [terpasang, setTerpasang] = useState<Record<number, number>>({});
 
-  const soal = materi.soal[indeks];
-  const total = materi.soal.length;
+  const soal = latihan.soal[indeks];
+  const total = latihan.soal.length;
   const progres = Math.round(((indeks + (terjawab ? 1 : 0)) / total) * 100);
   const jumlahBenar = hasil.filter((h) => h.benar).length;
   const skor = jumlahBenar * POIN_PER_SOAL;
@@ -79,9 +80,9 @@ export default function QuizClient({ materi }: { materi: Materi }) {
     if (indeks + 1 >= total) {
       const hasilLatihan: HasilLatihan = {
         id: crypto.randomUUID(),
-        materiId: materi.id,
+        materiId: latihan.id,
         nama: savedName,
-        tema: materi.judul,
+        tema: latihan.judul,
         skor,
         jumlahBenar,
         total,
@@ -106,7 +107,7 @@ export default function QuizClient({ materi }: { materi: Materi }) {
           Masukkan nama di beranda dulu ya
         </h1>
         <p className="mt-2 text-sm text-forest/70">
-          Nama yang sama akan dipakai untuk semua materi dan nilai akan
+          Nama yang sama akan dipakai untuk semua latihan dan nilai akan
           digabungkan di satu baris.
         </p>
         <Link
@@ -122,8 +123,11 @@ export default function QuizClient({ materi }: { materi: Materi }) {
   return (
       <div className="space-y-4">
         <p className="text-center text-sm font-bold text-forest/70">
-          {savedName} · {materi.judul}
+          Latihan Pengayaan · HOTS
         </p>
+        <h1 className="text-center font-display text-xl font-bold text-forest">
+          {savedName} · {latihan.judul}
+        </h1>
         <div className="flex items-center justify-between text-sm font-bold text-forest/70">
           <span>
             Soal {indeks + 1} dari {total}
@@ -149,6 +153,7 @@ export default function QuizClient({ materi }: { materi: Materi }) {
           <h2 className="mt-3 font-display text-xl font-bold leading-snug text-forest">
             {soal.pertanyaan}
           </h2>
+          {soal.ilustrasi && <QuestionIllustration type={soal.ilustrasi} />}
 
           {soal.tipe === "pg" && (
             <div className="mt-5 space-y-2.5">
@@ -212,7 +217,7 @@ export default function QuizClient({ materi }: { materi: Materi }) {
           {soal.tipe === "matching" && (
             <div className="mt-5">
               <p className="mb-3 text-xs font-bold text-forest/50">
-                Pilih arti yang tepat untuk setiap kata.
+                Pilih pasangan yang paling tepat untuk setiap petunjuk.
               </p>
               <div className="space-y-3">
                 {soal.pasangan.map((pasangan, i) => (

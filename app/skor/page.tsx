@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { getSkor, type SkorRow } from "@/lib/api";
 import { formatTanggal } from "@/lib/helpers";
-import { materiList } from "@/data/materi";
+import { latihanList } from "@/data/latihan";
 
 export const metadata = {
   title: "Skor — English Fun",
@@ -62,15 +62,15 @@ function BarisSkor({ row }: { row: SkorRow }) {
         </span>
       </header>
       <dl className="mt-4 grid grid-cols-2 gap-2">
-        {materiList.map((materi) => {
-          const nilai = row.nilai[materi.id];
+        {latihanList.map((latihan) => {
+          const nilai = row.nilai[latihan.id];
           return (
             <div
-              key={materi.id}
+              key={latihan.id}
               className="rounded-2xl bg-mint-light/70 px-3 py-2"
             >
               <dt className="text-xs font-semibold text-forest/70">
-                {materi.judul}
+                {latihan.judul}
               </dt>
               <dd className="font-display font-bold text-forest">
                 {nilai === null || nilai === undefined ? "Belum dikerjakan" : nilai}
@@ -140,7 +140,7 @@ async function DaftarSkor() {
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3">
         <KartuStatistik label="Jumlah Anak" nilai={skor.length} />
-        <KartuStatistik label="Materi Dikerjakan" nilai={semuaNilai.length} />
+        <KartuStatistik label="Latihan Dikerjakan" nilai={semuaNilai.length} />
         <KartuStatistik label="Rata-rata Kelas" nilai={rataRataKelas} />
         <KartuStatistik label="Rata-rata Tertinggi" nilai={rataRataTertinggi} />
       </div>

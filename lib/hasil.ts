@@ -1,4 +1,4 @@
-import type { Soal } from "@/data/materi";
+import type { Soal } from "@/data/latihan";
 
 export interface HasilLatihan {
   id: string;

@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { getMateriById, materiList } from "@/data/materi";
+import { getLatihanById, latihanList } from "@/data/latihan";
 import QuizClient from "@/components/QuizClient";
 
 export function generateStaticParams() {
-  return materiList.map((m) => ({ id: m.id }));
+  return latihanList.map((latihan) => ({ id: latihan.id }));
 }
 
 export default async function Page({
@@ -12,8 +12,8 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const materi = getMateriById(id);
-  if (!materi) notFound();
+  const latihan = getLatihanById(id);
+  if (!latihan) notFound();
 
-  return <QuizClient materi={materi} />;
+  return <QuizClient latihan={latihan} />;
 }

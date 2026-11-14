@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { materiList } from "@/data/materi";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { latihanList } from "@/data/latihan";
 import StudentProfile from "@/components/StudentProfile";
 
 export default function HomePage() {
@@ -23,43 +24,48 @@ export default function HomePage() {
           <circle cx="215" cy="76" r="1.5" fill="#fdfdf8" />
         </svg>
         <p className="text-sm font-bold text-forest/60">
-          Belajar Bahasa Inggris kelas 2 SD
+          Tantangan Bahasa Inggris kelas 2 SD
         </p>
         <h1 className="mt-1 font-display text-2xl font-bold text-forest">
-          Halo! Mau belajar apa hari ini?
+          <span className="inline-flex items-center gap-2">
+            <Sparkles aria-hidden="true" className="h-6 w-6 text-forest/60" />
+            Siap mengerjakan tantangan?
+          </span>
         </h1>
       </header>
 
       <StudentProfile />
 
-      <section
-        aria-label="Pilih materi belajar"
-        className="grid grid-cols-2 gap-3"
-      >
-        {materiList.map((m, i) => (
+      <section aria-label="Pilih latihan pengayaan" className="space-y-3">
+        <h2 className="px-1 font-display text-lg font-bold text-forest">
+          Latihan Pengayaan
+        </h2>
+        {latihanList.map((latihan, i) => (
           <article
-            key={m.id}
-            className="flex min-h-48 flex-col rounded-3xl border border-mint-light bg-cream p-4 shadow-sm shadow-mint/30"
+            key={latihan.id}
+            className="flex items-center gap-4 rounded-3xl border border-mint-light bg-cream p-4 shadow-sm shadow-mint/30"
           >
-            <Link href={`/materi/${m.id}`} className="flex-1">
-              <span className="inline-flex rounded-full bg-mint-light px-3 py-1 text-xs font-bold text-forest">
-                Materi {i + 1}
-              </span>
-              <h2 className="mt-3 font-display text-lg font-bold leading-snug text-forest">
-                {m.judul}
-              </h2>
-              <p className="mt-2 text-xs font-bold text-forest/55">
-                {m.soal.length} Soal
-              </p>
-            </Link>
-            <div className="mt-3">
-              <Link
-                href={`/materi/${m.id}`}
-                className="block rounded-full bg-mint-light px-3 py-2 text-center text-sm font-bold text-forest transition-colors hover:bg-mint"
-              >
-                Belajar
-              </Link>
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-mint-light font-display text-lg font-bold text-forest">
+              {String(i + 1).padStart(2, "0")}
             </div>
+            <div className="min-w-0 flex-1">
+              <span className="inline-flex rounded-full bg-mint-light px-3 py-1 text-xs font-bold text-forest">
+                Tantangan HOTS
+              </span>
+              <h3 className="mt-2 font-display text-base font-bold leading-snug text-forest">
+                {latihan.judul}
+              </h3>
+              <p className="mt-1 text-xs font-bold text-forest/55">
+                {latihan.soal.length} soal pengayaan
+              </p>
+            </div>
+            <Link
+              href={`/latihan/${latihan.id}`}
+              aria-label={`Mulai latihan ${latihan.judul}`}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-forest text-cream transition-transform hover:scale-105"
+            >
+              <ArrowRight aria-hidden="true" className="h-5 w-5" />
+            </Link>
           </article>
         ))}
       </section>

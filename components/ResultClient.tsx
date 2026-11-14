@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -134,7 +135,7 @@ export default function ResultClient() {
           Hasil latihan belum tersedia
         </h1>
         <p className="mt-2 text-sm text-forest/70">
-          Silakan pilih materi dan selesaikan latihannya terlebih dahulu.
+          Silakan pilih tantangan dan selesaikan latihannya terlebih dahulu.
         </p>
         <Link
           href="/"
@@ -169,7 +170,14 @@ export default function ResultClient() {
           </p>
         </div>
         <h1 className="mt-5 font-display text-2xl font-bold text-forest">
-          {berhasil ? "Hebat! 🌟" : "Ayo coba lagi! 💪"}
+          {berhasil ? (
+            <span className="inline-flex items-center gap-2">
+              <Sparkles aria-hidden="true" className="h-6 w-6" />
+              Hebat!
+            </span>
+          ) : (
+            "Ayo coba lagi!"
+          )}
         </h1>
       </section>
 

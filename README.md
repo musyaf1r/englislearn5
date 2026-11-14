@@ -1,8 +1,8 @@
 # English Fun
 
-Website edukasi Bahasa Inggris kelas 2 SD dengan Next.js App Router, Tailwind
-CSS v4, dan Google Spreadsheet untuk menyimpan hasil latihan. Semua materi dan
-soal tersimpan langsung di `data/materi.ts`. Nama anak disimpan di browser
+Website latihan pengayaan Bahasa Inggris kelas 2 SD dengan Next.js App Router,
+Tailwind CSS v4, dan Google Spreadsheet untuk menyimpan hasil latihan. Semua
+soal tersimpan langsung di `data/latihan.ts`. Nama anak disimpan di browser
 setelah pertama kali dimasukkan, lalu digunakan kembali pada latihan berikutnya.
 
 ## Menjalankan secara lokal
@@ -21,9 +21,9 @@ Tailwind versi 3 (`tailwind.config.ts`) tidak digunakan oleh setup v4 ini.
    [English Fun — Hasil Belajar](https://docs.google.com/spreadsheets/d/1kgvG7-13VEagpfdda9IU9uOEiDoymgzJfZccnn4MKKY/edit).
 2. Pilih **Extensions → Apps Script**.
 3. Ganti isi editor dengan file `Code.gs`, lalu simpan. Script membuat tab
-   `Hasil` dengan satu baris per anak, kolom nilai untuk tiap materi, rata-rata,
-   dan waktu pembaruan. Mengulang materi akan mengganti skor materi tersebut
-   dengan skor terbaru, lalu menghitung ulang rata-rata dari materi yang selesai.
+   `Hasil` dengan satu baris per anak, kolom nilai untuk tiap latihan, rata-rata,
+   dan waktu pembaruan. Mengulang latihan akan mengganti skor latihan tersebut
+   dengan skor terbaru, lalu menghitung ulang rata-rata dari latihan yang selesai.
    Jika ada tab `Hasil` lama, script mengarsipkannya sebagai `Riwayat Hasil`
    sebelum membuat format rekap baru.
 4. Pilih **Deploy → New deployment → Web app**.
