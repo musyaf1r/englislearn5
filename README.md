@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# English Fun
 
-## Getting Started
+Website edukasi Bahasa Inggris kelas 2 SD dengan Next.js App Router, Tailwind
+CSS v4, dan Google Spreadsheet untuk menyimpan hasil latihan. Semua materi dan
+soal tersimpan langsung di `data/materi.ts`. Nama anak disimpan di browser
+setelah pertama kali dimasukkan, lalu digunakan kembali pada latihan berikutnya.
 
-First, run the development server:
+## Menjalankan secara lokal
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Salin `.env.example` menjadi `.env.local`.
+2. Tempel URL Google Apps Script Web App pada `NEXT_PUBLIC_SHEET_API_URL`.
+3. Jalankan `npm install`, lalu `npm run dev`.
+4. Buka `http://localhost:3000`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tema Tailwind v4 didefinisikan melalui `@theme` di `app/globals.css`; konfigurasi
+Tailwind versi 3 (`tailwind.config.ts`) tidak digunakan oleh setup v4 ini.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Menyiapkan Google Spreadsheet
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Buka spreadsheet yang sudah disiapkan:
+   [English Fun — Hasil Belajar](https://docs.google.com/spreadsheets/d/1kgvG7-13VEagpfdda9IU9uOEiDoymgzJfZccnn4MKKY/edit).
+2. Pilih **Extensions → Apps Script**.
+3. Ganti isi editor dengan file `Code.gs`, lalu simpan. Script membuat tab
+   `Hasil` dengan satu baris per anak, kolom nilai untuk tiap materi, rata-rata,
+   dan waktu pembaruan. Mengulang materi akan mengganti skor materi tersebut
+   dengan skor terbaru, lalu menghitung ulang rata-rata dari materi yang selesai.
+   Jika ada tab `Hasil` lama, script mengarsipkannya sebagai `Riwayat Hasil`
+   sebelum membuat format rekap baru.
+4. Pilih **Deploy → New deployment → Web app**.
+5. Atur **Execute as: Me** dan **Who has access: Anyone**, lalu deploy dan
+   setujui izin akses spreadsheet.
+6. Pilih **Deploy → Manage deployments**, edit deployment Web App, pilih **New
+   version**, lalu deploy. URL `/exec` yang sama tetap dapat digunakan.
+7. Pastikan URL itu ada di `.env.local` sebagai `NEXT_PUBLIC_SHEET_API_URL`.
+   Jika server lokal sudah berjalan saat URL diubah, hentikan dan jalankan ulang
+   `npm run dev` agar environment variable terbaca.
 
-## Learn More
+Nama anak disimpan di local storage pada browser/perangkat yang digunakan.
+Untuk mengerjakan di perangkat berbeda, masukkan nama yang sama di beranda agar
+nilai tetap tergabung pada baris anak tersebut.
 
-To learn more about Next.js, take a look at the following resources:
+`doGet` membaca hasil untuk halaman `/skor`, sedangkan `doPost` hanya menerima
+data hasil latihan.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy gratis ke Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push project ke repository GitHub.
+2. Masuk ke [Vercel](https://vercel.com), pilih **Add New → Project**, lalu
+   import repository tersebut.
+3. Pada **Environment Variables**, tambahkan
+   `NEXT_PUBLIC_SHEET_API_URL` dengan URL Web App Google Apps Script.
+4. Klik **Deploy**. Vercel mendeteksi Next.js secara otomatis; gunakan paket
+   Hobby gratis untuk project personal/non-komersial.
+5. Setelah deploy selesai, buka URL yang diberikan Vercel. Setiap kali URL
+   Apps Script diubah, perbarui environment variable lalu jalankan redeploy.
