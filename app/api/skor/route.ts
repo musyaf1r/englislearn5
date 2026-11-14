@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         status: "error",
-        message: "NEXT_PUBLIC_SHEET_API_URL belum diatur di server.",
+        message: "NEXT_PUBLIC_SHEET_API_URL is not set on the server.",
       },
       { status: 500 },
     );
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     body = await request.json();
   } catch {
     return NextResponse.json(
-      { status: "error", message: "Body request tidak valid." },
+      { status: "error", message: "Invalid request body." },
       { status: 400 },
     );
   }
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     skor > 100
   ) {
     return NextResponse.json(
-      { status: "error", message: "Data skor tidak lengkap atau tidak valid." },
+      { status: "error", message: "Score data is missing or invalid." },
       { status: 400 },
     );
   }
@@ -72,14 +72,14 @@ export async function POST(request: Request) {
         {
           status: "error",
           message:
-            "Apps Script tidak mengembalikan JSON. Periksa URL dan deployment Web App.",
+            "Apps Script did not return JSON. Check the URL and Web App deployment.",
         },
         { status: 502 },
       );
     }
 
     if (!res.ok || data.status !== "ok") {
-      const message = data.message ?? "Apps Script menolak penyimpanan skor.";
+      const message = data.message ?? "Apps Script could not save the score.";
       console.error("Apps Script failed to save a score:", message);
       return NextResponse.json(
         { status: "error", message },
@@ -94,7 +94,7 @@ export async function POST(request: Request) {
       {
         status: "error",
         message:
-          "Gagal menghubungi Apps Script. Pastikan server lokal sudah direstart dan URL Web App benar.",
+          "Could not reach Apps Script. Restart the local server and check the Web App URL.",
       },
       { status: 502 },
     );

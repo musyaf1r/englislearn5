@@ -1,55 +1,53 @@
 # English Fun
 
-Website latihan pengayaan Bahasa Inggris kelas 2 SD dengan Next.js App Router,
-Tailwind CSS v4, dan Google Spreadsheet untuk menyimpan hasil latihan. Semua
-soal tersimpan langsung di `data/latihan.ts`. Nama anak disimpan di browser
-setelah pertama kali dimasukkan, lalu digunakan kembali pada latihan berikutnya.
+An English enrichment challenge website for Grade 2 students, built with the
+Next.js App Router and Tailwind CSS v4. Google Sheets stores challenge scores.
+Questions are defined in `data/latihan.ts`. A student's name is saved in the
+browser and reused for future challenges.
 
-## Menjalankan secara lokal
+## Run locally
 
-1. Salin `.env.example` menjadi `.env.local`.
-2. Tempel URL Google Apps Script Web App pada `NEXT_PUBLIC_SHEET_API_URL`.
-3. Jalankan `npm install`, lalu `npm run dev`.
-4. Buka `http://localhost:3000`.
+1. Copy `.env.example` to `.env.local`.
+2. Set `NEXT_PUBLIC_SHEET_API_URL` to your Google Apps Script Web App URL.
+3. Run `npm install`, then `npm run dev`.
+4. Open `http://localhost:3000`.
 
-Tema Tailwind v4 didefinisikan melalui `@theme` di `app/globals.css`; konfigurasi
-Tailwind versi 3 (`tailwind.config.ts`) tidak digunakan oleh setup v4 ini.
+The Tailwind v4 theme is defined with `@theme` in `app/globals.css`. This setup
+does not use the Tailwind v3 configuration file (`tailwind.config.ts`).
 
-## Menyiapkan Google Spreadsheet
+## Set up Google Sheets
 
-1. Buka spreadsheet yang sudah disiapkan:
-   [English Fun — Hasil Belajar](https://docs.google.com/spreadsheets/d/1kgvG7-13VEagpfdda9IU9uOEiDoymgzJfZccnn4MKKY/edit).
-2. Pilih **Extensions → Apps Script**.
-3. Ganti isi editor dengan file `Code.gs`, lalu simpan. Script membuat tab
-   `Hasil` dengan satu baris per anak, kolom nilai untuk tiap latihan, rata-rata,
-   dan waktu pembaruan. Mengulang latihan akan mengganti skor latihan tersebut
-   dengan skor terbaru, lalu menghitung ulang rata-rata dari latihan yang selesai.
-   Jika ada tab `Hasil` lama, script mengarsipkannya sebagai `Riwayat Hasil`
-   sebelum membuat format rekap baru.
-4. Pilih **Deploy → New deployment → Web app**.
-5. Atur **Execute as: Me** dan **Who has access: Anyone**, lalu deploy dan
-   setujui izin akses spreadsheet.
-6. Pilih **Deploy → Manage deployments**, edit deployment Web App, pilih **New
-   version**, lalu deploy. URL `/exec` yang sama tetap dapat digunakan.
-7. Pastikan URL itu ada di `.env.local` sebagai `NEXT_PUBLIC_SHEET_API_URL`.
-   Jika server lokal sudah berjalan saat URL diubah, hentikan dan jalankan ulang
-   `npm run dev` agar environment variable terbaca.
+1. Open the prepared spreadsheet:
+   [English Fun — Learning Results](https://docs.google.com/spreadsheets/d/1kgvG7-13VEagpfdda9IU9uOEiDoymgzJfZccnn4MKKY/edit).
+2. Select **Extensions → Apps Script**.
+3. Replace the editor contents with `Code.gs` and save. The script creates a
+   `Hasil` tab with one row per student, a score column for each challenge, an
+   average, and an update time. Retaking a challenge replaces that challenge's
+   score with the latest result and recalculates the average. If an old `Hasil`
+   tab exists, the script archives it as `Riwayat Hasil` before creating the
+   new summary format.
+4. Select **Deploy → New deployment → Web app**.
+5. Set **Execute as: Me** and **Who has access: Anyone**, then deploy and
+   approve spreadsheet access.
+6. Select **Deploy → Manage deployments**, edit the Web App deployment, choose
+   **New version**, and deploy. The same `/exec` URL can still be used.
+7. Add that URL to `.env.local` as `NEXT_PUBLIC_SHEET_API_URL`. If the local
+   server is running when you change the URL, restart `npm run dev` so the
+   environment variable is loaded.
 
-Nama anak disimpan di local storage pada browser/perangkat yang digunakan.
-Untuk mengerjakan di perangkat berbeda, masukkan nama yang sama di beranda agar
-nilai tetap tergabung pada baris anak tersebut.
+The student's name is stored in the browser's local storage. To use another
+device, enter the same name on the home page so scores remain grouped under the
+same student.
 
-`doGet` membaca hasil untuk halaman `/skor`, sedangkan `doPost` hanya menerima
-data hasil latihan.
+`doGet` reads results for `/skor`, while `doPost` accepts challenge results.
 
-## Deploy gratis ke Vercel
+## Deploy to Vercel
 
-1. Push project ke repository GitHub.
-2. Masuk ke [Vercel](https://vercel.com), pilih **Add New → Project**, lalu
-   import repository tersebut.
-3. Pada **Environment Variables**, tambahkan
-   `NEXT_PUBLIC_SHEET_API_URL` dengan URL Web App Google Apps Script.
-4. Klik **Deploy**. Vercel mendeteksi Next.js secara otomatis; gunakan paket
-   Hobby gratis untuk project personal/non-komersial.
-5. Setelah deploy selesai, buka URL yang diberikan Vercel. Setiap kali URL
-   Apps Script diubah, perbarui environment variable lalu jalankan redeploy.
+1. Push the project to a GitHub repository.
+2. On [Vercel](https://vercel.com), select **Add New → Project** and import the
+   repository.
+3. Under **Environment Variables**, add `NEXT_PUBLIC_SHEET_API_URL` with the
+   Google Apps Script Web App URL.
+4. Select **Deploy**. Vercel detects Next.js automatically.
+5. When deployment finishes, open the URL provided by Vercel. If the Apps
+   Script URL changes, update the environment variable and redeploy.

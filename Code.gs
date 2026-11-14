@@ -73,7 +73,7 @@ function doPost(e) {
     ) {
       return jsonOut({
         status: "error",
-        message: "Nama, latihan, skor, atau tanggal tidak valid.",
+        message: "Name, challenge, score, or date is invalid.",
       });
     }
 
@@ -203,7 +203,7 @@ function ambilSheet() {
   }
 
   throw new Error(
-    'Format tab "Hasil" tidak dikenal. Data tidak diubah; periksa baris header.',
+    'The "Hasil" tab has an unrecognized format. No data was changed; check the header row.',
   );
 }
 

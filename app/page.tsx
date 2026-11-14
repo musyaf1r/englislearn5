@@ -10,7 +10,7 @@ export default function HomePage() {
         <svg
           viewBox="0 0 320 125"
           role="img"
-          aria-label="Awan putih dan ombak hijau"
+          aria-label="White clouds and green waves"
           className="mx-auto mb-2 h-28 w-full"
         >
           <path
@@ -24,21 +24,21 @@ export default function HomePage() {
           <circle cx="215" cy="76" r="1.5" fill="#fdfdf8" />
         </svg>
         <p className="text-sm font-bold text-forest/60">
-          Tantangan Bahasa Inggris kelas 2 SD
+          Grade 2 English Challenges
         </p>
         <h1 className="mt-1 font-display text-2xl font-bold text-forest">
           <span className="inline-flex items-center gap-2">
             <Sparkles aria-hidden="true" className="h-6 w-6 text-forest/60" />
-            Siap mengerjakan tantangan?
+            Ready for a challenge?
           </span>
         </h1>
       </header>
 
       <StudentProfile />
 
-      <section aria-label="Pilih latihan pengayaan" className="space-y-3">
+      <section aria-label="Choose an enrichment challenge" className="space-y-3">
         <h2 className="px-1 font-display text-lg font-bold text-forest">
-          Latihan Pengayaan
+          Enrichment Challenges
         </h2>
         {latihanList.map((latihan, i) => (
           <article
@@ -50,18 +50,18 @@ export default function HomePage() {
             </div>
             <div className="min-w-0 flex-1">
               <span className="inline-flex rounded-full bg-mint-light px-3 py-1 text-xs font-bold text-forest">
-                Tantangan HOTS
+                HOTS Challenge
               </span>
               <h3 className="mt-2 font-display text-base font-bold leading-snug text-forest">
                 {latihan.judul}
               </h3>
               <p className="mt-1 text-xs font-bold text-forest/55">
-                {latihan.soal.length} soal pengayaan
+                {latihan.soal.length} enrichment questions
               </p>
             </div>
             <Link
               href={`/latihan/${latihan.id}`}
-              aria-label={`Mulai latihan ${latihan.judul}`}
+              aria-label={`Start ${latihan.judul}`}
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-forest text-cream transition-transform hover:scale-105"
             >
               <ArrowRight aria-hidden="true" className="h-5 w-5" />

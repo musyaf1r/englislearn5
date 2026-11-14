@@ -4,8 +4,8 @@ import { formatTanggal } from "@/lib/helpers";
 import { latihanList } from "@/data/latihan";
 
 export const metadata = {
-  title: "Skor — English Fun",
-  description: "Rekap hasil latihan siswa yang tersimpan di Google Spreadsheet.",
+  title: "Scores — English Fun",
+  description: "Student challenge scores saved in Google Sheets.",
 };
 
 export default function Page() {
@@ -13,17 +13,17 @@ export default function Page() {
     <div className="space-y-5">
       <header className="pt-2 text-center">
         <h1 className="font-display text-3xl font-bold text-forest">
-          Skor Kelas
+          Class Scores
         </h1>
         <p className="mt-1 text-sm font-semibold text-forest/60">
-          Hasil latihan tersimpan di Google Spreadsheet
+          Challenge results saved in Google Sheets
         </p>
       </header>
 
       <Suspense
         fallback={
           <div className="rounded-3xl border border-mint-light bg-cream p-8 text-center text-sm font-bold text-forest/50">
-            Memuat skor...
+            Loading scores...
           </div>
         }
       >
@@ -58,7 +58,7 @@ function BarisSkor({ row }: { row: SkorRow }) {
           {row.nama}
         </p>
         <span className="shrink-0 rounded-full bg-sun px-3 py-1 font-display font-bold text-forest">
-          Rata-rata {row.rataRata}
+          Average {row.rataRata}
         </span>
       </header>
       <dl className="mt-4 grid grid-cols-2 gap-2">
@@ -73,7 +73,7 @@ function BarisSkor({ row }: { row: SkorRow }) {
                 {latihan.judul}
               </dt>
               <dd className="font-display font-bold text-forest">
-                {nilai === null || nilai === undefined ? "Belum dikerjakan" : nilai}
+                {nilai === null || nilai === undefined ? "Not completed" : nilai}
                 {nilai !== null && nilai !== undefined ? "/100" : ""}
               </dd>
             </div>
@@ -96,11 +96,11 @@ async function DaftarSkor() {
     return (
       <div className="rounded-3xl border border-mint-light bg-cream p-8 text-center shadow-sm shadow-mint/30">
         <h2 className="font-display text-lg font-bold text-forest">
-          Skor belum bisa dimuat
+          Scores could not be loaded
         </h2>
         <p className="mt-1 text-sm text-forest/60">
-          Periksa koneksi internet atau konfigurasi spreadsheet, lalu muat ulang
-          halaman.
+          Check your internet connection or spreadsheet settings, then reload
+          the page.
         </p>
       </div>
     );
@@ -115,10 +115,10 @@ async function DaftarSkor() {
           </svg>
         </div>
         <h2 className="mt-3 font-display text-lg font-bold text-forest">
-          Belum ada skor tersimpan
+          No scores saved yet
         </h2>
         <p className="mt-1 text-sm text-forest/60">
-          Ayo kerjakan latihan soal dulu, hasilnya akan muncul di sini.
+          Complete a challenge to see its results here.
         </p>
       </div>
     );
@@ -139,10 +139,10 @@ async function DaftarSkor() {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3">
-        <KartuStatistik label="Jumlah Anak" nilai={skor.length} />
-        <KartuStatistik label="Latihan Dikerjakan" nilai={semuaNilai.length} />
-        <KartuStatistik label="Rata-rata Kelas" nilai={rataRataKelas} />
-        <KartuStatistik label="Rata-rata Tertinggi" nilai={rataRataTertinggi} />
+        <KartuStatistik label="Students" nilai={skor.length} />
+        <KartuStatistik label="Challenges Completed" nilai={semuaNilai.length} />
+        <KartuStatistik label="Class Average" nilai={rataRataKelas} />
+        <KartuStatistik label="Highest Average" nilai={rataRataTertinggi} />
       </div>
 
       <div className="space-y-2.5">

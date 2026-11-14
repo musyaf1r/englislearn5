@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { BookOpenCheck, Trophy } from "lucide-react";
 
 const MENU = [
-  { href: "/", label: "Beranda", ikon: BookOpenCheck },
-  { href: "/skor", label: "Skor", ikon: Trophy },
+  { href: "/", label: "Home", ikon: BookOpenCheck },
+  { href: "/skor", label: "Scores", ikon: Trophy },
 ];
 
 export default function BottomNav() {

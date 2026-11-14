@@ -104,17 +104,17 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
     return (
       <div className="mx-auto max-w-sm rounded-3xl border border-mint-light bg-cream p-6 text-center shadow-sm shadow-mint/30">
         <h1 className="font-display text-2xl font-bold text-forest">
-          Masukkan nama di beranda dulu ya
+          Enter your name on the home page first
         </h1>
         <p className="mt-2 text-sm text-forest/70">
-          Nama yang sama akan dipakai untuk semua latihan dan nilai akan
-          digabungkan di satu baris.
+          The same name will be used for every challenge, and your scores will
+          be combined in one row.
         </p>
         <Link
           href="/"
           className="mt-5 block rounded-full bg-forest py-3 font-display font-bold text-cream"
         >
-          Kembali ke Beranda
+          Back to Home
         </Link>
       </div>
     );
@@ -123,14 +123,14 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
   return (
       <div className="space-y-4">
         <p className="text-center text-sm font-bold text-forest/70">
-          Latihan Pengayaan · HOTS
+          Enrichment Challenge · HOTS
         </p>
         <h1 className="text-center font-display text-xl font-bold text-forest">
           {savedName} · {latihan.judul}
         </h1>
         <div className="flex items-center justify-between text-sm font-bold text-forest/70">
           <span>
-            Soal {indeks + 1} dari {total}
+            Question {indeks + 1} of {total}
           </span>
           <span>{progres}%</span>
         </div>
@@ -144,10 +144,10 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
         <div className="rounded-3xl border border-mint-light bg-cream p-5 shadow-sm shadow-mint/30">
           <span className="inline-block rounded-full bg-mint-light px-3 py-1 text-xs font-bold text-forest">
             {soal.tipe === "pg"
-              ? "Pilihan Ganda"
+              ? "Multiple Choice"
               : soal.tipe === "isian"
-                ? "Isian Singkat"
-                : "Menjodohkan"}
+                ? "Short Answer"
+                : "Matching"}
           </span>
 
           <h2 className="mt-3 font-display text-xl font-bold leading-snug text-forest">
@@ -198,7 +198,7 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
                 onChange={(e) => setJawabanIsian(e.target.value)}
                 disabled={terjawab}
                 autoFocus
-                placeholder="Tulis jawabanmu"
+                placeholder="Type your answer"
                 maxLength={60}
                 className="w-full rounded-2xl border-2 border-mint-light bg-white px-4 py-3.5 text-center text-lg font-bold text-forest outline-none placeholder:text-forest/30 focus:border-forest disabled:opacity-60"
               />
@@ -208,7 +208,7 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
                   disabled={!jawabanIsian.trim()}
                   className="mt-3 w-full rounded-full bg-forest py-3 font-display text-base font-bold text-cream transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  Periksa Jawaban
+                  Check Answer
                 </button>
               )}
             </form>
@@ -217,7 +217,7 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
           {soal.tipe === "matching" && (
             <div className="mt-5">
               <p className="mb-3 text-xs font-bold text-forest/50">
-                Pilih pasangan yang paling tepat untuk setiap petunjuk.
+                Choose the best match for each clue.
               </p>
               <div className="space-y-3">
                 {soal.pasangan.map((pasangan, i) => (
@@ -236,7 +236,7 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
                       disabled={terjawab}
                       className="w-full rounded-2xl border-2 border-mint-light bg-white px-4 py-3 font-semibold text-forest outline-none focus:border-forest disabled:opacity-70"
                     >
-                      <option value="">Pilih pasangannya</option>
+                      <option value="">Choose a match</option>
                       {kananAcak.map((arti, j) => (
                         <option key={j} value={j}>
                           {arti}
@@ -253,7 +253,7 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
                   disabled={Object.keys(terpasang).length !== soal.pasangan.length}
                   className="mt-4 w-full rounded-full bg-forest py-3 font-display text-base font-bold text-cream transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  Periksa Pasangan
+                  Check Matches
                 </button>
               )}
             </div>
@@ -266,10 +266,10 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
                   benar ? "bg-mint-light text-forest" : "bg-sun/60 text-forest"
                 }`}
               >
-                {benar ? "Benar. Hebat sekali!" : "Belum tepat, tidak apa-apa."}
+                {benar ? "Correct. Great job!" : "Not quite. Keep trying!"}
                 {!benar && soal.tipe === "pg" && (
                   <p className="mt-1 text-sm font-semibold">
-                    Jawaban yang benar:{" "}
+                    Correct answer:{" "}
                     <strong>
                       {soal.kunci.toUpperCase()}){" "}
                       {soal.opsi[HURUF.indexOf(soal.kunci.toUpperCase())]}
@@ -278,7 +278,7 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
                 )}
                 {!benar && soal.tipe === "isian" && (
                   <p className="mt-1 text-sm font-semibold">
-                    Jawaban yang benar: <strong>{soal.kunci}</strong>
+                    Correct answer: <strong>{soal.kunci}</strong>
                   </p>
                 )}
                 {!benar && soal.tipe === "matching" && (
@@ -296,7 +296,7 @@ export default function QuizClient({ latihan }: { latihan: LatihanTopic }) {
                 onClick={lanjut}
                 className="mt-3 w-full rounded-full bg-forest py-3 font-display text-base font-bold text-cream transition-transform hover:scale-[1.02]"
               >
-                {indeks + 1 >= total ? "Lihat Hasil" : "Lanjut"}
+                {indeks + 1 >= total ? "See Results" : "Next"}
               </button>
             </div>
           )}

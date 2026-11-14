@@ -16,15 +16,15 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "English Fun — Latihan Pengayaan Bahasa Inggris Kelas 2 SD",
+  title: "English Fun — Grade 2 English Enrichment",
   description:
-    "Latihan pengayaan Bahasa Inggris kelas 2 SD dengan soal HOTS dan rekap skor.",
+    "Grade 2 English enrichment challenges with higher-order thinking questions and score tracking.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="id"
+      lang="en"
       className={`${baloo.variable} ${quicksand.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">

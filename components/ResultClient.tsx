@@ -10,7 +10,7 @@ import {
 } from "react";
 import type { HasilLatihan } from "@/lib/hasil";
 
-type StatusSimpan = "memuat" | "menyimpan" | "tersimpan" | "gagal";
+type StatusSimpan = "loading" | "saving" | "saved" | "failed";
 
 const KUNCI_HASIL = "english-fun-hasil";
 const statusPerHasil = new Map<string, StatusSimpan>();
@@ -39,7 +39,7 @@ function subscribeStatus(callback: () => void) {
 }
 
 function getStatus(id: string | null) {
-  return id ? statusPerHasil.get(id) ?? "memuat" : "memuat";
+  return id ? statusPerHasil.get(id) ?? "loading" : "loading";
 }
 
 function ubahStatus(id: string, status: StatusSimpan) {
@@ -65,7 +65,7 @@ export default function ResultClient() {
   const statusSimpan = useSyncExternalStore(
     subscribeStatus,
     () => getStatus(hasil?.id ?? null),
-    () => "memuat",
+    () => "loading",
   );
   const pesanSimpan = useSyncExternalStore(
     subscribeStatus,
@@ -79,7 +79,7 @@ export default function ResultClient() {
     if (pengirimanAktif.has(data.id)) return;
 
     pengirimanAktif.add(data.id);
-    ubahStatus(data.id, "menyimpan");
+    ubahStatus(data.id, "saving");
     try {
       const response = await fetch("/api/skor", {
         method: "POST",
@@ -99,21 +99,21 @@ export default function ResultClient() {
       if (!response.ok || hasilKirim.status !== "ok") {
         ubahPesan(
           data.id,
-          hasilKirim.message ?? "Skor gagal dikirim ke spreadsheet.",
+          hasilKirim.message ?? "Could not send the score to Google Sheets.",
         );
-        ubahStatus(data.id, "gagal");
+        ubahStatus(data.id, "failed");
         return;
       }
 
       sessionStorage.setItem(tandaTersimpan, "true");
       ubahPesan(data.id, "");
-      ubahStatus(data.id, "tersimpan");
+      ubahStatus(data.id, "saved");
     } catch {
       ubahPesan(
         data.id,
-        "Tidak bisa menghubungi server lokal. Periksa koneksi dan restart npm run dev setelah mengubah .env.local.",
+        "Could not reach the local server. Check your connection and restart npm run dev after changing .env.local.",
       );
-      ubahStatus(data.id, "gagal");
+      ubahStatus(data.id, "failed");
     } finally {
       pengirimanAktif.delete(data.id);
     }
@@ -132,16 +132,16 @@ export default function ResultClient() {
     return (
       <section className="rounded-3xl border border-mint-light bg-cream p-6 text-center shadow-sm shadow-mint/30">
         <h1 className="font-display text-2xl font-bold text-forest">
-          Hasil latihan belum tersedia
+          No challenge results yet
         </h1>
         <p className="mt-2 text-sm text-forest/70">
-          Silakan pilih tantangan dan selesaikan latihannya terlebih dahulu.
+          Choose a challenge and complete it first.
         </p>
         <Link
           href="/"
           className="mt-5 block rounded-full bg-forest py-3 font-bold text-cream"
         >
-          Kembali ke Beranda
+          Back to Home
         </Link>
       </section>
     );
@@ -156,27 +156,27 @@ export default function ResultClient() {
   return (
     <div className="space-y-4">
       <section className="rounded-3xl border border-mint-light bg-cream p-6 text-center shadow-sm shadow-mint/30">
-        <p className="font-semibold text-forest/70">Hebat, {hasil.nama}!</p>
+        <p className="font-semibold text-forest/70">Well done, {hasil.nama}!</p>
         <div className="mx-auto mt-4 w-fit rounded-3xl bg-mint-light px-9 py-5">
           <p className="text-xs font-bold uppercase tracking-wide text-forest/60">
-            Skor Kamu
+            Your Score
           </p>
           <p className="font-display text-6xl font-bold text-forest">
             {hasil.skor}
             <span className="text-2xl">/100</span>
           </p>
           <p className="text-sm font-semibold text-forest/60">
-            {hasil.jumlahBenar} benar dari {hasil.total} soal
+            {hasil.jumlahBenar} correct out of {hasil.total} questions
           </p>
         </div>
         <h1 className="mt-5 font-display text-2xl font-bold text-forest">
           {berhasil ? (
             <span className="inline-flex items-center gap-2">
               <Sparkles aria-hidden="true" className="h-6 w-6" />
-              Hebat!
+              Great job!
             </span>
           ) : (
-            "Ayo coba lagi!"
+            "Keep practicing!"
           )}
         </h1>
       </section>
@@ -185,18 +185,18 @@ export default function ResultClient() {
         aria-live="polite"
         className="rounded-3xl border border-mint-light bg-cream p-4 text-center text-sm font-semibold text-forest/70 shadow-sm shadow-mint/30"
       >
-        {statusSimpan === "memuat" &&
+        {statusSimpan === "loading" &&
           !sudahTersimpan &&
-          "Menyimpan skor ke spreadsheet..."}
-        {statusSimpan === "menyimpan" && "Menyimpan skor ke spreadsheet..."}
-        {(sudahTersimpan || statusSimpan === "tersimpan") &&
-          "Skor berhasil tersimpan online."}
-        {statusSimpan === "gagal" && (
+          "Saving your score to Google Sheets..."}
+        {statusSimpan === "saving" && "Saving your score to Google Sheets..."}
+        {(sudahTersimpan || statusSimpan === "saved") &&
+          "Your score was saved online."}
+        {statusSimpan === "failed" && (
           <div>
-            <p>Skor tidak tersimpan online, tapi tetap bagus!</p>
+            <p>Your score was not saved online, but you did a great job!</p>
             {pesanSimpan && (
               <p className="mt-1 break-words text-xs font-medium">
-                Detail: {pesanSimpan}
+                Details: {pesanSimpan}
               </p>
             )}
             <button
@@ -206,7 +206,7 @@ export default function ResultClient() {
               }}
               className="mt-2 font-bold text-forest underline"
             >
-              Coba simpan lagi
+              Try saving again
             </button>
           </div>
         )}
@@ -215,7 +215,7 @@ export default function ResultClient() {
       {soalSalah.length > 0 && (
         <section className="rounded-3xl border border-mint-light bg-cream p-5 shadow-sm shadow-mint/30">
           <h2 className="font-display text-lg font-bold text-forest">
-            Ayo pelajari lagi
+            Review These Questions
           </h2>
           <ul className="mt-3 space-y-3 text-sm text-forest/80">
             {soalSalah.map(({ soal }) => (
@@ -223,7 +223,7 @@ export default function ResultClient() {
                 <strong>{soal.pertanyaan}</strong>
                 {soal.tipe === "pg" && (
                   <p>
-                    Jawaban benar:{" "}
+                    Correct answer:{" "}
                     <strong>
                       {soal.kunci}){" "}
                       {soal.opsi["ABCD".indexOf(soal.kunci.toUpperCase())]}
@@ -232,7 +232,7 @@ export default function ResultClient() {
                 )}
                 {soal.tipe === "isian" && (
                   <p>
-                    Jawaban benar: <strong>{soal.kunci}</strong>
+                    Correct answer: <strong>{soal.kunci}</strong>
                   </p>
                 )}
                 {soal.tipe === "matching" && (
@@ -255,19 +255,19 @@ export default function ResultClient() {
           href={`/latihan/${hasil.materiId}`}
           className="block rounded-full bg-forest py-3 text-center font-display font-bold text-cream"
         >
-          Ulangi Latihan
+          Try Again
         </Link>
         <Link
           href="/skor"
           className="block rounded-full bg-sun py-3 text-center font-display font-bold text-forest"
         >
-          Lihat Skor
+          View Scores
         </Link>
         <Link
           href="/"
           className="block rounded-full bg-mint-light py-3 text-center font-display font-bold text-forest"
         >
-          Kembali ke Beranda
+          Back to Home
         </Link>
       </div>
     </div>

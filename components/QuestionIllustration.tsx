@@ -1,20 +1,20 @@
 import type { IlustrasiSoal } from "@/data/latihan";
 
 const LABEL: Record<IlustrasiSoal, string> = {
-  "ball-under-chair": "Bola tepat di bawah kursi",
-  "book-under-table": "Buku berada di bawah meja",
-  "cat-in-box": "Kucing berada di dalam kotak",
-  "pencil-next-to-book": "Pensil berada di samping buku",
-  "ball-on-chair": "Bola berada di atas kursi",
-  "book-on-table": "Buku berada di atas meja",
-  "position-matching": "Gambar posisi kucing di kotak, bola di bawah kursi, dan buku di atas meja",
-  "pencil-ball-matching": "Pensil di samping buku dan bola di bawah kursi",
-  "shadow-experiment": "Lampu menyinari benda dan membentuk bayangan di layar",
-  "shadow-distance": "Benda bergerak mendekati layar di antara lampu dan layar",
-  "shadow-dark": "Ruangan gelap tanpa cahaya sehingga bayangan tidak terlihat",
-  "shadow-reverse": "Lampu di kanan benda dan bayangan jatuh ke kiri",
-  "shadow-book": "Buku tebal menghalangi cahaya dan membentuk bayangan",
-  "shadow-matching": "Percobaan lampu dan benda yang membentuk bayangan",
+  "ball-under-chair": "A ball directly under a chair",
+  "book-under-table": "A book under a table",
+  "cat-in-box": "A cat inside a box",
+  "pencil-next-to-book": "A pencil next to a book",
+  "ball-on-chair": "A ball on a chair",
+  "book-on-table": "A book on a table",
+  "position-matching": "A cat in a box, a ball under a chair, and a book on a table",
+  "pencil-ball-matching": "A pencil next to a book and a ball under a chair",
+  "shadow-experiment": "A lamp shining on an object and casting a shadow on a screen",
+  "shadow-distance": "An object moving toward a screen between a lamp and the screen",
+  "shadow-dark": "A dark room with no light and no visible shadow",
+  "shadow-reverse": "A lamp to the right of an object casting a shadow to the left",
+  "shadow-book": "A thick book blocking light and casting a shadow",
+  "shadow-matching": "An experiment showing a lamp and an object casting a shadow",
 };
 
 const STROKE = {

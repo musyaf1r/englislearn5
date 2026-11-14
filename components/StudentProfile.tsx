@@ -29,7 +29,7 @@ export default function StudentProfile() {
       <section className="flex items-center justify-between gap-3 rounded-3xl border border-mint-light bg-cream px-4 py-3 shadow-sm shadow-mint/30">
         <p className="font-semibold text-forest">
           <Sprout aria-hidden="true" className="mr-1 inline h-5 w-5 text-forest/70" />
-          Halo, <strong>{savedName}</strong>!
+          Hello, <strong>{savedName}</strong>!
         </p>
         <button
           type="button"
@@ -39,7 +39,7 @@ export default function StudentProfile() {
           }}
           className="shrink-0 rounded-full bg-mint-light px-3 py-2 text-sm font-bold text-forest"
         >
-          Ganti nama
+          Change name
         </button>
       </section>
     );
@@ -54,7 +54,7 @@ export default function StudentProfile() {
         htmlFor="student-name"
         className="block font-display font-bold text-forest"
       >
-        {savedName ? "Ubah nama anak" : "Masukkan nama anak dulu ya"}
+        {savedName ? "Change your name" : "Enter your name to get started"}
       </label>
       <div className="mt-3 flex gap-2">
         <input
@@ -63,14 +63,14 @@ export default function StudentProfile() {
           onChange={(event) => setName(event.target.value)}
           maxLength={50}
           required
-          placeholder="Nama anak"
+          placeholder="Your name"
           className="min-w-0 flex-1 rounded-2xl border-2 border-mint-light bg-white px-4 py-3 font-semibold text-forest outline-none placeholder:text-forest/40 focus:border-forest"
         />
         <button
           type="submit"
           className="rounded-2xl bg-forest px-4 py-3 font-bold text-cream"
         >
-          Simpan
+          Save
         </button>
       </div>
       {savedName && (
@@ -79,11 +79,11 @@ export default function StudentProfile() {
           onClick={() => setEditing(false)}
           className="mt-2 text-sm font-semibold text-forest/60 underline"
         >
-          Batal
+          Cancel
         </button>
       )}
       <p className="mt-2 text-xs text-forest/60">
-        Nama ini akan dipakai untuk semua nilai latihan di perangkat ini.
+        This name will be used for all challenge scores on this device.
       </p>
     </form>
   );
